@@ -33,105 +33,134 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col items-center p-4 sm:p-6 font-sans transition-colors duration-200">
-      {/* Barra Superior */}
-      <header className="max-w-2xl w-full flex justify-between items-center my-4">
-        <div className="text-left">
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-linear-to-r from-cyan-600 to-emerald-600 dark:from-cyan-400 dark:to-emerald-400 bg-clip-text text-transparent">
-            Simulador de Tablas de Verdad
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-1">
-            Construye expresiones lógicas con p, q, r.
-          </p>
-        </div>
-        <ThemeToggle theme={theme} onToggle={toggleTheme} />
-      </header>
-
-      {/* Toast Alerta */}
-      {toastMessage && (
-        <div className="fixed top-5 right-5 bg-rose-600 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 border border-rose-400 animate-bounce z-50">
-          <Icons.AlertCircle className="w-5 h-5" />
-          <span className="text-sm font-medium">{toastMessage}</span>
-        </div>
-      )}
-
-      <main className="max-w-2xl w-full flex flex-col gap-5">
-        {/* Visualizador de Expresión */}
-        <section className="flex flex-col gap-3">
-          <ExpressionDisplay
-            tokens={tokens}
-            cursorIndex={cursorIndex}
-            onSelectPosition={setCursorIndex}
-          />
-
-          {/* Controles del Cursor */}
-          <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-300 dark:border-slate-800 shadow-sm">
-            <div className="flex gap-2">
-              <button
-                onClick={moveCursorLeft}
-                className="p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
-                title="Mover cursor izquierda"
-              >
-                <Icons.ChevronLeft className="w-5 h-5 text-slate-700 dark:text-slate-300" />
-              </button>
-              <button
-                onClick={moveCursorRight}
-                className="p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
-                title="Mover cursor derecha"
-              >
-                <Icons.ChevronRight className="w-5 h-5 text-slate-700 dark:text-slate-300" />
-              </button>
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                onClick={deleteLeft}
-                className="p-2 bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950/50 hover:text-rose-600 dark:hover:text-rose-400 rounded-lg transition-colors flex items-center gap-1 text-sm font-medium text-slate-700 dark:text-slate-300"
-              >
-                <Icons.Delete className="w-5 h-5" /> Borrar
-              </button>
-              <button
-                onClick={clearAll}
-                className="p-2 bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-900/60 rounded-lg transition-colors"
-                title="Limpiar todo"
-              >
-                <Icons.Trash2 className="w-5 h-5 text-rose-500 dark:text-rose-400" />
-              </button>
-            </div>
+    <div className="min-h-screen bg-[#16161e] text-[#a9b1d6] font-mono flex flex-col items-center p-2 sm:p-4 selection:bg-[#3d59a1]">
+      {/* Shell / Main Terminal Container */}
+      <div className="max-w-3xl w-full flex flex-col gap-3 my-auto">
+        
+        {/* Top TUI Bar */}
+        <header className="w-full bg-[#1a1b26] border border-[#38bdf8]/40 p-2 sm:p-2.5 rounded-sm flex justify-between items-center shadow-md">
+          <div className="flex items-center gap-2">
+            <span className="inline-block w-2.5 h-2.5 bg-[#9ece6a] rounded-full animate-pulse" />
+            <span className="text-xs sm:text-sm font-bold text-[#7aa2f7] tracking-wider uppercase">
+              SYS::TRUTH_TABLE_MONITOR v2.6
+            </span>
           </div>
-        </section>
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:inline-block text-xs text-[#565f89]">
+              [MODE: LOGIC_EVAL]
+            </span>
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          </div>
+        </header>
 
-        {/* Mensaje Pedagógico Fijo */}
-        <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900/80 border border-slate-300 dark:border-slate-800 flex items-start gap-3 shadow-sm">
-          <Icons.HelpCircle className="w-5 h-5 text-cyan-600 dark:text-cyan-400 shrink-0 mt-0.5" />
-          <p className="text-sm text-slate-700 dark:text-slate-300">
-            {validation.guidanceMessage}
-          </p>
-        </div>
-
-        {/* Teclado */}
-        <OperatorKeyboard validation={validation} onInsert={insertToken} />
-
-        {/* Botón Generar Tabla */}
-        <button
-          disabled={!validation.isValid}
-          onClick={handleGenerateTable}
-          className="w-full py-4 bg-linear-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-lg rounded-2xl shadow-lg disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-        >
-          <Icons.Table className="w-6 h-6" />
-          Generar Tabla de Verdad
-        </button>
-
-        {/* Resultados de la Tabla */}
-        {truthTable && (
-          <section className="mt-4 flex flex-col gap-3">
-            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">
-              Resultado de la Tabla de Verdad
-            </h2>
-            <TruthTableGrid data={truthTable} />
-          </section>
+        {/* Alerta Toast */}
+        {toastMessage && (
+          <div className="bg-[#1a1b26] border border-[#f7768e] text-[#f7768e] p-2.5 rounded-sm flex items-center justify-between shadow-lg text-xs sm:text-sm animate-fade-in">
+            <div className="flex items-center gap-2">
+              <Icons.AlertCircle className="w-4 h-4 shrink-0" />
+              <span>[ERR] {toastMessage}</span>
+            </div>
+            <span className="text-[10px] text-[#565f89]">HALT</span>
+          </div>
         )}
-      </main>
+
+        {/* Main Panel */}
+        <main className="w-full flex flex-col gap-3">
+          {/* Visualizador de Expresión */}
+          <section className="relative bg-[#1a1b26] border border-[#38bdf8]/40 rounded-sm p-3 pt-4 flex flex-col gap-2">
+            <span className="absolute -top-2.5 left-3 bg-[#1a1b26] px-2 text-[10px] sm:text-xs font-bold text-[#38bdf8] uppercase tracking-wider border border-[#38bdf8]/30">
+              [01]-INPUT_EXPRESSION
+            </span>
+
+            <ExpressionDisplay
+              tokens={tokens}
+              cursorIndex={cursorIndex}
+              onSelectPosition={setCursorIndex}
+            />
+
+            {/* Controles de Navegación del Cursor */}
+            <div className="flex justify-between items-center bg-[#13141c] p-1.5 rounded-sm border border-[#27293a]">
+              <div className="flex gap-1.5">
+                <button
+                  onClick={moveCursorLeft}
+                  className="px-2.5 py-1 bg-[#1a1b26] hover:bg-[#202330] border border-[#3b4261] text-[#7dcfff] rounded-xs text-xs font-bold transition-all active:translate-y-0.5"
+                  title="Mover cursor izquierda"
+                >
+                  &lt; LEFT
+                </button>
+                <button
+                  onClick={moveCursorRight}
+                  className="px-2.5 py-1 bg-[#1a1b26] hover:bg-[#202330] border border-[#3b4261] text-[#7dcfff] rounded-xs text-xs font-bold transition-all active:translate-y-0.5"
+                  title="Mover cursor derecha"
+                >
+                  RIGHT &gt;
+                </button>
+              </div>
+
+              <div className="flex gap-1.5">
+                <button
+                  onClick={deleteLeft}
+                  className="px-2.5 py-1 bg-[#1a1b26] hover:bg-[#f7768e]/20 border border-[#f7768e]/50 text-[#f7768e] rounded-xs text-xs font-bold transition-all active:translate-y-0.5"
+                >
+                  DEL
+                </button>
+                <button
+                  onClick={clearAll}
+                  className="px-2.5 py-1 bg-[#1a1b26] hover:bg-[#f7768e]/20 border border-[#f7768e]/50 text-[#f7768e] rounded-xs text-xs font-bold transition-all active:translate-y-0.5"
+                  title="Limpiar todo"
+                >
+                  CLR
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Panel Informativo / Guía */}
+          <div className="bg-[#1a1b26] border border-[#e0af68]/40 p-2.5 rounded-sm flex items-start gap-2.5 text-xs text-[#e0af68]">
+            <Icons.HelpCircle className="w-4 h-4 shrink-0 mt-0.5 text-[#e0af68]" />
+            <p className="leading-relaxed">
+              <span className="font-bold uppercase">[GUIDE]:</span> {validation.guidanceMessage}
+            </p>
+          </div>
+
+          {/* Teclado */}
+          <section className="relative bg-[#1a1b26] border border-[#2ac3de]/40 rounded-sm p-3 pt-4">
+            <span className="absolute -top-2.5 left-3 bg-[#1a1b26] px-2 text-[10px] sm:text-xs font-bold text-[#2ac3de] uppercase tracking-wider border border-[#2ac3de]/30">
+              [02]-OPERATORS_PAD
+            </span>
+            <OperatorKeyboard validation={validation} onInsert={insertToken} />
+          </section>
+
+          {/* Botón de Ejecución */}
+          <button
+            disabled={!validation.isValid}
+            onClick={handleGenerateTable}
+            className="w-full py-2.5 bg-[#202330] hover:bg-[#9ece6a]/20 border border-[#9ece6a] text-[#9ece6a] font-bold text-xs sm:text-sm tracking-wider uppercase rounded-sm shadow-md disabled:opacity-30 disabled:pointer-events-none transition-all active:translate-y-0.5 flex items-center justify-center gap-2"
+          >
+            <Icons.Table className="w-4 h-4" />
+            [EXECUTE_EVALUATION]
+          </button>
+
+          {/* Resultados */}
+          {truthTable && (
+            <section className="relative bg-[#1a1b26] border border-[#7aa2f7]/40 rounded-sm p-3 pt-4 mt-2">
+              <span className="absolute -top-2.5 left-3 bg-[#1a1b26] px-2 text-[10px] sm:text-xs font-bold text-[#7aa2f7] uppercase tracking-wider border border-[#7aa2f7]/30">
+                [03]-TRUTH_TABLE_OUTPUT
+              </span>
+              <TruthTableGrid data={truthTable} />
+            </section>
+          )}
+        </main>
+
+        {/* Bottom Status Bar */}
+        <footer className="w-full bg-[#13141c] border border-[#27293a] px-3 py-1.5 rounded-sm flex justify-between items-center text-[10px] text-[#565f89]">
+          <div>STATUS: READY</div>
+          <div className="flex gap-3">
+            <span>MEM: OPTIMAL</span>
+            <span>UTF-8</span>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }

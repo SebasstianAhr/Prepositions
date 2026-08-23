@@ -1,78 +1,71 @@
-import type { FC } from 'react';
-
-import type {
-  TokenType,
-  ValidationResult,
-} from '../../../domain/logic/types';
+import type { FC } from "react";
+import type { TokenType, ValidationResult } from "../../../domain/logic/types";
 
 interface Props {
   validation: ValidationResult;
   onInsert: (type: TokenType, value: string) => void;
 }
 
-export const OperatorKeyboard: FC<Props> = ({
-  validation,
-  onInsert,
-}) => {
+export const OperatorKeyboard: FC<Props> = ({ validation, onInsert }) => {
   const isAllowed = (type: TokenType): boolean =>
     validation.allowedTokenTypes.includes(type);
 
   return (
-    <div className="grid grid-cols-4 gap-2.5 w-full max-w-md mx-auto">
-      {/* Proposiciones */}
-      {['p', 'q', 'r'].map((proposition) => (
+    <div className="grid grid-cols-4 gap-1.5 w-full">
+      {/* Proposiciones (Verde Terminal) */}
+      {["p", "q", "r"].map((proposition) => (
         <button
           key={proposition}
-          disabled={!isAllowed('PROP')}
-          onClick={() => onInsert('PROP', proposition)}
-          className="h-13 text-xl font-bold rounded-xl border bg-emerald-600/20 border-emerald-500/40 text-emerald-300 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-all"
+          disabled={!isAllowed("PROP")}
+          onClick={() => onInsert("PROP", proposition)}
+          className="h-10 text-base font-bold font-mono rounded-xs border bg-[#1c2526] border-[#73daca]/50 text-[#73daca] hover:bg-[#73daca]/20 hover:border-[#73daca] disabled:opacity-20 disabled:pointer-events-none transition-all active:translate-y-0.5"
         >
-          {proposition}
+          [{proposition}]
         </button>
       ))}
 
-      {/* Negación */}
+      {/* Negación (Ámbar) */}
       <button
-        disabled={!isAllowed('NOT')}
-        onClick={() => onInsert('NOT', '¬')}
-        className="h-13 text-xl font-bold rounded-xl border bg-amber-600/20 border-amber-500/40 text-amber-300 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-all"
+        disabled={!isAllowed("NOT")}
+        onClick={() => onInsert("NOT", "¬")}
+        className="h-10 text-base font-bold font-mono rounded-xs border bg-[#26211c] border-[#e0af68]/50 text-[#e0af68] hover:bg-[#e0af68]/20 hover:border-[#e0af68] disabled:opacity-20 disabled:pointer-events-none transition-all active:translate-y-0.5"
       >
-        ¬
+        [¬]
       </button>
 
-      {/* Operadores binarios */}
+      {/* Operadores binarios (Cian / Azul Terminal) */}
       {[
-        { symbol: '∧', label: 'Conjunción' },
-        { symbol: '∨', label: 'Disyunción' },
-        { symbol: '→', label: 'Condicional' },
-        { symbol: '↔', label: 'Bicondicional' },
+        { symbol: "∧", label: "Conjunción" },
+        { symbol: "∨", label: "Disyunción" },
+        { symbol: "→", label: "Condicional" },
+        { symbol: "↔", label: "Bicondicional" },
       ].map((operator) => (
         <button
           key={operator.symbol}
-          disabled={!isAllowed('OP_BIN')}
-          onClick={() => onInsert('OP_BIN', operator.symbol)}
-          className="h-13 text-xl font-bold rounded-xl border bg-blue-600/20 border-blue-500/40 text-blue-300 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-all"
+          disabled={!isAllowed("OP_BIN")}
+          onClick={() => onInsert("OP_BIN", operator.symbol)}
+          className="h-10 text-base font-bold font-mono rounded-xs border bg-[#1a2332] border-[#7dcfff]/50 text-[#7dcfff] hover:bg-[#7dcfff]/20 hover:border-[#7dcfff] disabled:opacity-20 disabled:pointer-events-none transition-all active:translate-y-0.5"
           title={operator.label}
         >
-          {operator.symbol}
+          [{operator.symbol}]
         </button>
       ))}
 
-      {/* Paréntesis */}
+      {/* Paréntesis (Púrpura / Violeta) */}
       <button
-        disabled={!isAllowed('OPEN_PAR')}
-        onClick={() => onInsert('OPEN_PAR', '(')}
-        className="h-13 text-xl font-bold rounded-xl border bg-purple-600/20 border-purple-500/40 text-purple-300 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-all"
+        disabled={!isAllowed("OPEN_PAR")}
+        onClick={() => onInsert("OPEN_PAR", "(")}
+        className="h-10 text-base font-bold font-mono rounded-xs border bg-[#231b2e] border-[#bb9af7]/50 text-[#bb9af7] hover:bg-[#bb9af7]/20 hover:border-[#bb9af7] disabled:opacity-20 disabled:pointer-events-none transition-all active:translate-y-0.5"
       >
-        (
+        [(]
       </button>
 
       <button
         disabled={!validation.canCloseParenthesis}
-        onClick={() => onInsert('CLOSE_PAR', ')')}
-        className="h-13 text-xl font-bold rounded-xl border bg-purple-600/20 border-purple-500/40 text-purple-300 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-all"
+        onClick={() => onInsert("CLOSE_PAR", ")")}
+        className="h-10 text-base font-bold font-mono rounded-xs border bg-[#231b2e] border-[#bb9af7]/50 text-[#bb9af7] hover:bg-[#bb9af7]/20 hover:border-[#bb9af7] disabled:opacity-20 disabled:pointer-events-none transition-all active:translate-y-0.5"
       >
-        )
+        [)]
       </button>
     </div>
   );

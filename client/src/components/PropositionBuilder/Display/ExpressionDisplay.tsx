@@ -13,29 +13,34 @@ export const ExpressionDisplay: React.FC<Props> = ({
   onSelectPosition,
 }) => {
   return (
-    <div className="w-full min-h-20 p-4 bg-slate-100 dark:bg-slate-900 border-2 border-slate-300 dark:border-slate-700 rounded-2xl flex items-center flex-nowrap gap-1 cursor-pointer transition-all shadow-inner overflow-x-auto touch-pan-x whitespace-nowrap">
+    <div className="w-full min-h-14 px-3 py-2 bg-[#13141c] border border-[#27293a] rounded-sm flex items-center flex-nowrap cursor-pointer overflow-x-auto touch-pan-x whitespace-nowrap font-mono selection:bg-none">
+      {/* Indicador de Línea Prompt */}
+      <span className="text-[#38bdf8] font-bold mr-1.5 select-none text-xs sm:text-sm shrink-0">
+        &gt;
+      </span>
+
       {/* Cursor en la posición 0 */}
       <span
         onClick={() => onSelectPosition(0)}
-        className={`w-0.5 h-7 sm:h-8 rounded-full transition-all shrink-0 ${
+        className={`w-2 h-5 sm:h-6 transition-all shrink-0 ${
           cursorIndex === 0
-            ? "bg-cyan-500 dark:bg-cyan-400 animate-pulse scale-110 shadow-[0_0_8px_rgba(6,182,212,0.6)]"
-            : "bg-transparent hover:bg-slate-400/50 dark:hover:bg-slate-600/50"
+            ? "bg-[#38bdf8] animate-pulse shadow-[0_0_8px_#38bdf8]"
+            : "bg-transparent hover:bg-[#38bdf8]/20"
         }`}
       />
 
       {tokens.length === 0 && (
-        <p className="text-slate-400 dark:text-slate-500 select-none text-base sm:text-lg italic font-sans whitespace-normal">
-          Construye tu expresión usando los botones...
+        <p className="text-[#565f89] select-none text-xs sm:text-sm italic font-mono whitespace-normal">
+          _Esperando tokens de expresión...
         </p>
       )}
 
       {tokens.map((token, idx) => (
         <React.Fragment key={token.id}>
-          {/* Carácter de la Expresión */}
+          {/* Carácter Tipográfico Terminal */}
           <span
             onClick={() => onSelectPosition(idx + 1)}
-            className="text-xl sm:text-2xl font-bold font-mono tracking-wide text-slate-800 dark:text-slate-100 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors select-none px-0.5 shrink-0"
+            className="text-base sm:text-lg font-bold text-[#c0caf5] hover:text-[#7dcfff] transition-colors select-none px-0.5 shrink-0"
           >
             {token.value}
           </span>
@@ -43,10 +48,10 @@ export const ExpressionDisplay: React.FC<Props> = ({
           {/* Cursor entre caracteres */}
           <span
             onClick={() => onSelectPosition(idx + 1)}
-            className={`w-0.5 h-7 sm:h-8 rounded-full transition-all shrink-0 ${
+            className={`w-2 h-5 sm:h-6 transition-all shrink-0 ${
               cursorIndex === idx + 1
-                ? "bg-cyan-500 dark:bg-cyan-400 animate-pulse scale-110 shadow-[0_0_8px_rgba(6,182,212,0.6)]"
-                : "bg-transparent hover:bg-slate-400/50 dark:hover:bg-slate-600/50"
+                ? "bg-[#38bdf8] animate-pulse shadow-[0_0_8px_#38bdf8]"
+                : "bg-transparent hover:bg-[#38bdf8]/20"
             }`}
           />
         </React.Fragment>
