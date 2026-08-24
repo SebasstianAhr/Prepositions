@@ -23,7 +23,6 @@ function MainApp() {
     cursorIndex,
     setCursorIndex,
     validation,
-    toastMessage,
     insertToken,
     moveCursorLeft,
     moveCursorRight,
@@ -61,20 +60,6 @@ function MainApp() {
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </div>
         </header>
-
-        {toastMessage && (
-          <div className="p-2.5 rounded-sm border bg-rose-50 border-rose-300 text-rose-700 dark:bg-[#1a1b26] dark:border-[#f7768e] dark:text-[#f7768e] flex items-center justify-between text-xs sm:text-sm shadow-xs gap-2">
-            <div className="flex items-center gap-2 min-w-0">
-              <Icons.AlertCircle className="w-4 h-4 shrink-0" />
-              <span className="truncate">
-                [{t("errLabel")}] {toastMessage}
-              </span>
-            </div>
-            <span className="text-[10px] opacity-70 shrink-0">
-              {t("haltLabel")}
-            </span>
-          </div>
-        )}
 
         <main className="w-full min-w-0 flex flex-col gap-3">
           <section className="relative p-3 pt-4 rounded-sm border bg-white border-slate-300 dark:bg-[#1a1b26] dark:border-[#38bdf8]/40 flex flex-col gap-2.5 shadow-xs">

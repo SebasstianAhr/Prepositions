@@ -5,24 +5,17 @@ import { useState, useMemo } from "react";
 export function usePropositionBuilder() {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [cursorIndex, setCursorIndex] = useState<number>(0);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const validation = useMemo(
     () => validateState(tokens, cursorIndex),
     [tokens, cursorIndex],
   );
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3500);
-  };
-
   const insertToken = (type: TokenType, value: string) => {
     if (
       !validation.allowedTokenTypes.includes(type) &&
       !(type === "CLOSE_PAR" && validation.canCloseParenthesis)
     ) {
-      showToast(`No puedes agregar "${value}" en esta posición.`);
       return;
     }
 
@@ -61,7 +54,6 @@ export function usePropositionBuilder() {
     cursorIndex,
     setCursorIndex,
     validation,
-    toastMessage,
     insertToken,
     moveCursorLeft,
     moveCursorRight,
