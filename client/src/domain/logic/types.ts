@@ -18,6 +18,7 @@ export interface ValidationResult {
   isValid: boolean;
   errorMessage?: string;
   guidanceMessage: string;
+  guidanceMessageKey?: string;
   allowedTokenTypes: TokenType[];
   allowedPropositions?: PropositionSymbol[];
   canCloseParenthesis: boolean;

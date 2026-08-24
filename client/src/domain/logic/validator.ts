@@ -7,6 +7,7 @@ export function validateState(
   if (tokens.length === 0) {
     return {
       isValid: false,
+      guidanceMessageKey: "guideEmpty",
       guidanceMessage:
         "Comienza seleccionando una proposición (p, q, r), una negación (¬) o un paréntesis ( ( ).",
       allowedTokenTypes: ["PROP", "NOT", "OPEN_PAR"],
@@ -14,7 +15,6 @@ export function validateState(
     };
   }
 
-  // Contar paréntesis hasta el cursor
   let openParCount = 0;
   for (let i = 0; i < cursorIndex; i++) {
     if (tokens[i].type === "OPEN_PAR") openParCount++;
@@ -23,8 +23,8 @@ export function validateState(
 
   const leftToken = cursorIndex > 0 ? tokens[cursorIndex - 1] : null;
 
-  // Analizar lo que se permite a continuación
   let allowedTokenTypes: TokenType[] = [];
+  let guidanceMessageKey = "guideExpectPropOrOpenOrNot";
   let guidanceMessage = "";
 
   if (
@@ -33,26 +33,29 @@ export function validateState(
     leftToken.type === "OP_BIN"
   ) {
     allowedTokenTypes = ["PROP", "NOT", "OPEN_PAR"];
+    guidanceMessageKey = "guideExpectPropOrOpenOrNot";
     guidanceMessage =
       leftToken?.type === "OP_BIN"
         ? "Selecciona una proposición, negación o abre paréntesis tras el operador."
         : "Selecciona una proposición, negación o abre paréntesis.";
   } else if (leftToken.type === "NOT") {
     allowedTokenTypes = ["PROP", "NOT", "OPEN_PAR"];
+    guidanceMessageKey = "guideExpectPropOrOpenOrNot";
     guidanceMessage =
       "La negación requiere una proposición o una expresión entre paréntesis.";
   } else if (leftToken.type === "PROP" || leftToken.type === "CLOSE_PAR") {
     allowedTokenTypes = ["OP_BIN"];
     if (openParCount > 0) {
       allowedTokenTypes.push("CLOSE_PAR");
+      guidanceMessageKey = "guideExpectOpOrClose";
       guidanceMessage =
         "Puedes agregar un operador lógico o cerrar el paréntesis ')'.";
     } else {
+      guidanceMessageKey = "guideExpectOpOrClose";
       guidanceMessage = "Puedes agregar un operador lógico (∧, ∨, →, ↔).";
     }
   }
 
-  // Validar si la expresión completa está sintácticamente cerrada/válida
   let totalOpenPar = 0;
   let isSyntaxValid = true;
 
@@ -77,9 +80,20 @@ export function validateState(
     isSyntaxValid = false;
   }
 
+  const isValid = isSyntaxValid && tokens.length > 0;
+
+  if (isValid) {
+    guidanceMessageKey = "guideComplete";
+    guidanceMessage =
+      "¡La expresión está completa! Puedes generar la tabla de verdad.";
+  } else if (totalOpenPar > 0) {
+    guidanceMessageKey = "guideUnbalancedPar";
+  }
+
   return {
-    isValid: isSyntaxValid && tokens.length > 0,
-    guidanceMessage: isSyntaxValid
+    isValid,
+    guidanceMessageKey,
+    guidanceMessage: isValid
       ? "¡La expresión está completa! Puedes generar la tabla de verdad."
       : guidanceMessage,
     allowedTokenTypes,

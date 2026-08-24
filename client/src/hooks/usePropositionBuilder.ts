@@ -1,6 +1,6 @@
-import { useState, useMemo } from "react";
 import type { Token, TokenType } from "../domain/logic/types";
 import { validateState } from "../domain/logic/validator";
+import { useState, useMemo } from "react";
 
 export function usePropositionBuilder() {
   const [tokens, setTokens] = useState<Token[]>([]);

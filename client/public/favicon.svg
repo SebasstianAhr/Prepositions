@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Fondo Contenedor Terminal -->
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="#1a1b26" stroke="#38bdf8" stroke-width="3"/>
+
+  <!-- Puntos Decorativos Header Terminal -->
+  <circle cx="12" cy="12" r="2.5" fill="#f7768e" />
+  <circle cx="20" cy="12" r="2.5" fill="#e0af68" />
+  <circle cx="28" cy="12" r="2.5" fill="#9ece6a" />
+
+  <!-- Símbolo Lógico Central (Operador Conjunción ∧) -->
+  <path d="M 20 46 L 32 22 L 44 46" 
+        fill="none" 
+        stroke="#7dcfff" 
+        stroke-width="5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+
+  <!-- Indicador de Valor 'V' en tono Emerald/Verde -->
+  <path d="M 46 12 L 49 16 L 54 9" 
+        fill="none" 
+        stroke="#9ece6a" 
+        stroke-width="2.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+</svg>

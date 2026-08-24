@@ -44,7 +44,7 @@ export function parseToAST(tokens: Token[]): ASTNode {
       ) {
         popOperator(outputStack, operatorStack.pop()!);
       }
-      operatorStack.pop(); // Remover '('
+      operatorStack.pop();
       if (
         operatorStack.length > 0 &&
         operatorStack[operatorStack.length - 1].type === "NOT"

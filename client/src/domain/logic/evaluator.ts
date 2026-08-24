@@ -46,25 +46,20 @@ export function generateTruthTable(tokens: Token[]): TruthTableData {
   const numRows = Math.pow(2, usedProps.length);
   const rows: Record<string, boolean>[] = [];
 
-  // Sub-expresiones para columnas intermedias
   const subExpressions: { label: string; ast: ASTNode }[] = [];
   extractSubExpressions(ast, subExpressions);
 
-  // Generar combinaciones (Verdadero = T, Falso = F)
   for (let i = 0; i < numRows; i++) {
     const rowEnv: Record<string, boolean> = {};
     usedProps.forEach((prop, index) => {
-      // Distribución binaria estándar (V/F)
       const bit = (i >> (usedProps.length - 1 - index)) & 1;
-      rowEnv[prop] = bit === 0; // 0 -> true, 1 -> false
+      rowEnv[prop] = bit === 0;
     });
     rows.push(rowEnv);
   }
 
-  // Crear columnas
   const columns: TruthTableColumn[] = [];
 
-  // Columnas de variables
   usedProps.forEach((prop) => {
     columns.push({
       header: prop,
@@ -72,7 +67,6 @@ export function generateTruthTable(tokens: Token[]): TruthTableData {
     });
   });
 
-  // Columnas intermedias y resultado final
   subExpressions.forEach((expr, idx) => {
     const isLast = idx === subExpressions.length - 1;
     columns.push({
