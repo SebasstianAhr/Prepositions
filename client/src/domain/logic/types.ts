@@ -1,3 +1,5 @@
+import type { TranslationKey } from "../../i18n/types";
+
 export type TokenType = "PROP" | "NOT" | "OP_BIN" | "OPEN_PAR" | "CLOSE_PAR";
 
 export type OperatorSymbol = "∧" | "∨" | "→" | "↔";
@@ -18,7 +20,7 @@ export interface ValidationResult {
   isValid: boolean;
   errorMessage?: string;
   guidanceMessage: string;
-  guidanceMessageKey?: string;
+  guidanceMessageKey?: TranslationKey;
   allowedTokenTypes: TokenType[];
   allowedPropositions?: PropositionSymbol[];
   canCloseParenthesis: boolean;

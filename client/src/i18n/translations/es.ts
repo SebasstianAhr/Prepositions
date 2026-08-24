@@ -1,6 +1,6 @@
 export const translations = {
   appTitle: "SYS::MONITOR_DE_TABLA_DE_VERDAD v_ssj",
-  modeLogic: "MODO: EVAL_LÓGICA",
+  modeLogic: "MODE: LOGIC_EVAL",
   inputSection: "[01]-EXPRESIÓN_ENTRADA",
   operatorsSection: "[02]-PANEL_OPERADORES",
   outputSection: "[03]-TABLA_VERDAD_SALIDA",

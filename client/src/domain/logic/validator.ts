@@ -1,4 +1,5 @@
 import type { Token, ValidationResult, TokenType } from "./types";
+import type { TranslationKey } from "../../i18n/types";
 
 export function validateState(
   tokens: Token[],
@@ -24,7 +25,8 @@ export function validateState(
   const leftToken = cursorIndex > 0 ? tokens[cursorIndex - 1] : null;
 
   let allowedTokenTypes: TokenType[] = [];
-  let guidanceMessageKey = "guideExpectPropOrOpenOrNot";
+  // Se añade la anotación de tipo explícita aquí:
+  let guidanceMessageKey: TranslationKey = "guideExpectPropOrOpenOrNot";
   let guidanceMessage = "";
 
   if (

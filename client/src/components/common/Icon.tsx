@@ -11,6 +11,7 @@ import {
   HelpCircle,
   Table,
   ArrowUp,
+  Terminal,
 } from "lucide-react";
 
 export const Icons = {
@@ -24,6 +25,7 @@ export const Icons = {
   CheckCircle2,
   HelpCircle,
   Table,
+  Terminal,
   ArrowUp,
   Github: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
