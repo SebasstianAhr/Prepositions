@@ -68,7 +68,7 @@ export const Footer: React.FC = () => {
             className="p-1.5 rounded-xs border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 dark:border-[#3b4261] dark:bg-[#1a1b26] dark:text-[#7dcfff] dark:hover:bg-[#202330] transition-colors focus:outline-hidden focus:ring-1 focus:ring-cyan-500 flex items-center gap-1 text-[11px] active:translate-y-0.5 cursor-pointer"
           >
             <Icons.ArrowUp className="w-3.5 h-3.5" />
-            <span className="uppercase text-[10px] font-bold hidden sm:inline">
+            <span className="uppercase text-[10px] font-bold">
               {t("footerReturnTop")}
             </span>
           </button>
